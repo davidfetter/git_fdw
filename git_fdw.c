@@ -502,12 +502,14 @@ static TupleTableSlot *gitIterateForeignScan(ForeignScanState *node)
 
   git_oid oid;
   git_commit *commit;
+  /*
   git_tree *commit_tree;
   git_commit *commit_parent;
   git_tree *commit_parent_tree;
   git_diff *commit_diff;
   git_diff_stats *commit_diff_stats;
   bool commit_parent_needs_free = false;
+  */
   int position;
 
   /* libgit's output */
@@ -535,14 +537,15 @@ static TupleTableSlot *gitIterateForeignScan(ForeignScanState *node)
     commit_author = git_commit_committer(commit);
     commit_sha1 = git_commit_id(commit);
 
-    if (git_commit_parent(&commit_parent, commit, 0) == GIT_OK)
+    /*
+	if (git_commit_parent(&commit_parent, commit, 0) == GIT_OK)
     {
       commit_parent_needs_free = true;
       git_commit_tree(&commit_parent_tree, commit_parent);
     }
     else
     {
-      /* Get diff of the first commit. */
+      // Get diff of the first commit.
       git_oid oid_tree_empty;
 
       if (git_oid_fromstr(&oid_tree_empty, EMPTY_REPO_SHA1) == GIT_OK)
@@ -569,6 +572,7 @@ static TupleTableSlot *gitIterateForeignScan(ForeignScanState *node)
     }
     git_tree_free(commit_tree);
     git_tree_free(commit_parent_tree);
+	  */
 
     /* Retrieve string-encoded SHA1 */
     formatted_commit_id = (char *)palloc(SHA1_LENGTH + 1);
